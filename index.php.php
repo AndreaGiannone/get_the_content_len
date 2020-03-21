@@ -8,42 +8,43 @@ $string = '228<!-- wp:image {"id":2852} --> <figure class="wp-block-image"><img 
 
 function countPostChar( $content ){
 
-	$string = htmlspecialchars_decode($content);
-	$count='';
-	$paragraph='';
-	$string_test=$string;
-	$string = str_split($string);
-	$counter = count($string);
-	for ($i=0; $i < $counter ; $i++) { 
-		// echo htmlspecialchars_decode($string[$i+1]);
-		// die;
-		
-		if( array_key_exists($i+1, $string) && 
-			array_key_exists($i+2, $string) && 
-			array_key_exists($i+3, $string) &&
-			array_key_exists($i+4, $string) &&
-			htmlspecialchars_decode($string[$i]) == '<' &&
-			htmlspecialchars_decode($string[$i+1]) == 'p' &&
-			htmlspecialchars_decode($string[$i+2]) == '>'
+	 $string = htmlspecialchars_decode($content);
+	 $count='';
+	 $paragraph='';
+	 $string_test=$string;
+	 $string = str_split($string);
+	 $counter = count($string);
+	 for ($i=0; $i < $counter ; $i++) { 
+	    // echo htmlspecialchars_decode($string[$i+1]);
+	    // die;
+	    
+	    if( array_key_exists($i+1, $string) && 
+	       array_key_exists($i+2, $string) && 
+	       array_key_exists($i+3, $string) &&
+	       array_key_exists($i+4, $string) &&
+	       htmlspecialchars_decode($string[$i]) == '<' &&
+	       htmlspecialchars_decode($string[$i+1]) == 'p' &&
+	       htmlspecialchars_decode($string[$i+2]) == '>'
 
-		){
-			$i= $i+3;
-			for ($j=$i; $j < $counter  ; $j++) { 
-				if (htmlspecialchars_decode($string[$i]) == '<' && htmlspecialchars_decode($string[$i+1]) == '/'){
-					$j=0;
-					break;
-				}
-				$paragraph.= htmlspecialchars_decode($string[$i]);
-				$i++;
+	    ){
+	       $i= $i+3;
+	       for ($j=$i; $j < $counter  ; $j++) { 
+	          if (htmlspecialchars_decode($string[$i]) == '<' && htmlspecialchars_decode($string[$i+1]) == '/'){
+	             $j=0;
+	             break;
+	          }
+	          $paragraph.= htmlspecialchars_decode($string[$i]);
+	          $i++;
 
-			}//nested for
+	       }//nested for
 
-		}// if
+	    }// if
 
-	}//for
-	$extra_char = substr_count($content, "img src")*1000;
-	
-	return strlen($paragraph) + $extra_char;
+	 }//for
+	 $extra_char = (substr_count($content, 'img src')-2)*1000;
+	 $extra_video = substr_count($content,'wp-block-embed-youtube')*1000;
+	 
+	 return strlen($paragraph) + $extra_char + $extra_video;
 }
 
 echo countPostChar( $string );
