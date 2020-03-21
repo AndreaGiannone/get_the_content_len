@@ -21,12 +21,19 @@ function countPostChar( $content ){
 		$paragraph.= $string[$key];
 
 		
-		if( $string[$key] == ';' && array_key_exists($key+1, $string) &&  $string[$key+1] == 'p' ){
-			 $count++;
-			 if ($count>3) {
-			 	break;
-			 }
-			 $paragraph='';
+		if( array_key_exists($key+1, $string) &&
+			array_key_exists($key+2, $string) &&
+			array_key_exists($key+3, $string) &&
+			array_key_exists($key+4, $string) &&
+			$string[$key] == ';' &&  $string[$key+1] == 'p' ){
+				while ( $string[$key] <> '&' &&
+						$string[$key] <> '1' &&
+						$string[$key] <> &&
+						$string[$key] <> &&
+						$string[$key] <> &&
+				) {
+					# code...
+				}
 		}
 	}
 		// echo json_encode($paragraph);
